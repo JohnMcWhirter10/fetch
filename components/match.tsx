@@ -19,10 +19,9 @@ const Match = () => {
 	const generateMatch = async () => {
 		setPending(true);
 		setError("");
-		const saved = localStorage.getItem("favorites");
-		if (saved) {
+		if (favorites.length > 0) {
 			try {
-				const matchResponse = await getMatch((JSON.parse(saved) as Dog[]).map((dog) => dog.id));
+				const matchResponse = await getMatch(favorites.map((dog) => dog.id));
 				if (!matchResponse.ok) {
 					setError("Could not generate match right now. Try Again.");
 					return;

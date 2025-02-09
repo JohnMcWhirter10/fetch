@@ -1,5 +1,7 @@
+import DeleteFavorites from "@/components/delete-favorites";
 import DogsTable from "@/components/dogs-table";
 import GenerateMatch from "@/components/generate-match";
+import LoadFavorites from "@/components/load-favorites";
 import SaveFavorites from "@/components/save-favorites";
 import { FavoritesProvider } from "@/context/favorites-context";
 import { Suspense } from "react";
@@ -10,6 +12,8 @@ const Home = () => {
 			<FavoritesProvider>
 				<div className="w-full flex justify-between">
 					<SaveFavorites />
+					<LoadFavorites />
+					<DeleteFavorites />
 					<GenerateMatch />
 				</div>
 				<Suspense fallback={<div>Loading...</div>}>

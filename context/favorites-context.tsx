@@ -8,6 +8,8 @@ interface FavoritesContextType {
 	addOrRemoveFavorite: (dog: Dog) => void;
 	clearFavorites: () => void;
 	saveFavorites: () => void;
+	loadFavorites: () => void;
+	deleteFavorites: () => void;
 }
 
 const FavoritesContext = createContext<FavoritesContextType | undefined>(undefined);
@@ -59,8 +61,49 @@ export const FavoritesProvider = ({ children }: { children: ReactNode }) => {
 		}
 	};
 
+	const loadFavorites = () => {
+		if (favorites.length != 0) {
+			toast({
+				title: "Favorites Already Loaded",
+				variant: "destructive",
+				description: "Clear Favorites and try again.",
+			});
+		} else {
+			const loadedFavorites = JSON.parse(localStorage.getItem("favorites") ?? "[]") as Dog[];
+			if (loadedFavorites.length > 0) {
+				setFavorites(loadedFavorites);
+				toast({
+					title: "Successfully Loaded Favorites",
+					variant: "success",
+				});
+			} else {
+				toast({
+					title: "No Favorites Saved",
+					variant: "destructive",
+				});
+			}
+		}
+	};
+
+	const deleteFavorites = () => {
+		if (localStorage.getItem("favorites")) {
+			localStorage.removeItem("favorites");
+			toast({
+				title: "Deleted Favorites",
+				variant: "success",
+			});
+		} else {
+			toast({
+				title: "No Favorites.",
+				variant: "destructive",
+			});
+		}
+	};
+
 	return (
-		<FavoritesContext.Provider value={{ favorites, addOrRemoveFavorite, clearFavorites, saveFavorites }}>
+		<FavoritesContext.Provider
+			value={{ favorites, addOrRemoveFavorite, clearFavorites, saveFavorites, loadFavorites, deleteFavorites }}
+		>
 			{children}
 		</FavoritesContext.Provider>
 	);
