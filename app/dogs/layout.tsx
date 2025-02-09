@@ -1,4 +1,3 @@
-import GenerateMatch from "@/components/generate-match";
 import LogOutButton from "@/components/logout-button";
 import { Toaster } from "@/components/ui/toaster";
 

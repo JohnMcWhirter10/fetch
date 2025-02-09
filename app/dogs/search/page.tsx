@@ -2,6 +2,7 @@ import DogsTable from "@/components/dogs-table";
 import GenerateMatch from "@/components/generate-match";
 import SaveFavorites from "@/components/save-favorites";
 import { FavoritesProvider } from "@/context/favorites-context";
+import { Suspense } from "react";
 
 const Home = () => {
 	return (
@@ -11,7 +12,9 @@ const Home = () => {
 					<SaveFavorites />
 					<GenerateMatch />
 				</div>
-				<DogsTable />
+				<Suspense fallback={<div>Loading...</div>}>
+					<DogsTable />
+				</Suspense>
 			</FavoritesProvider>
 		</div>
 	);

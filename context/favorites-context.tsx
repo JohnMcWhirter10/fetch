@@ -1,5 +1,5 @@
 "use client";
-import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import React, { createContext, useContext, useState, ReactNode, useEffect } from "react";
 import { Dog } from "@/lib/types";
 import { useToast } from "@/hooks/use-toast";
 
@@ -15,10 +15,11 @@ const FavoritesContext = createContext<FavoritesContextType | undefined>(undefin
 export const FavoritesProvider = ({ children }: { children: ReactNode }) => {
 	const { toast } = useToast();
 
-	const [favorites, setFavorites] = useState<Dog[]>(() => {
-		const saved = localStorage.getItem("favorites");
-		return saved ? (JSON.parse(saved) as Dog[]) : [];
-	});
+	const [favorites, setFavorites] = useState<Dog[]>([]);
+
+	useEffect(() => {
+		setFavorites(JSON.parse(localStorage.getItem("favorites") ?? "[]") as Dog[]);
+	}, []);
 
 	const addOrRemoveFavorite = (dog: Dog) => {
 		setFavorites((prev) => {
